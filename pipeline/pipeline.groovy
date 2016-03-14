@@ -1,18 +1,28 @@
-
+    
 def branches=[:]
 def mvn_command="bin/mvn clean verify -s /vagrant/settings.xml"
-def java_home='/vagrant/jdk1.8.0_71'
+//def java_home='/vagrant/jdk1.8.0_71'
+def java_home='/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.71-1.b15.el6_7.x86_64'
+def consumer_git_url='file:///vagrant/consumer-and-provider'
+
 def stage_per_downstream_provider=true
   node {
     
      def git_module_provider_map = [
-        "shape-provider": [ name: "shape-provider", git_url:'keith@10.0.2.2:/home/keith/projects/shape-provider']
+        "shape-provider": [ 
+            name: "shape-provider", 
+            git_url:'file:///vagrant/consumer-and-provider',
+            maven_args: "-Pshape-provider"
+
+            ]
         //,"color-provider": [ name: "color-provider", git_url:'keith@10.0.2.2:/home/keith/projects/color-provider']
      ]     
 
     def projects=[]
 
-    git credentialsId: 'fromfile', url: 'keith@10.0.2.2:/home/keith/projects/consumer-pact-example'
+    git url: 'file:///vagrant/consumer-and-provider'    
+   
+    
     // Get the maven tool.
     // ** NOTE: This 'M3' maven tool must be configured
     // **       in the global configuration.           
@@ -22,7 +32,7 @@ def stage_per_downstream_provider=true
    
     // Run the maven build
     withEnv(["JAVA_HOME=${java_home}"]) {
-        sh "${mvnHome}/${mvn_command}"
+        sh "${mvnHome}/${mvn_command} -Pconsumer"
         step([$class: 'JUnitResultArchiver', testResults: '**/target/surefire-reports/TEST-*.xml'])
     }
        
@@ -40,16 +50,17 @@ def stage_per_downstream_provider=true
    for (int i = 0; i < providers.size(); i++) {
      def current_provider=providers.get(i)
      if(git_module_provider_map.containsKey(current_provider)) {
-         echo "creating branch for ${current_provider}"
+         echo "creating forked build for ${current_provider}"
+         def args=git_module_provider_map[current_provider].maven_args
          branches["${i}-${current_provider}"] = {
             node {
-                if(stage_per_downstream_provider) {
-                    stage "${current_provider} verification"
-                }
-                git credentialsId: 'fromfile', url: git_module_provider_map[current_provider].git_url
+               
+                stage "${current_provider} verification"
+               
+                git url: git_module_provider_map[current_provider].git_url
                 // Run the maven build
-                withEnv(['JAVA_HOME=/vagrant/jdk1.8.0_71']) {
-                    sh "${mvnHome}/${mvn_command}"
+                withEnv(["JAVA_HOME=${java_home}"]) {
+                    sh "${mvnHome}/${mvn_command} ${args}"
                 }
             }
          }
