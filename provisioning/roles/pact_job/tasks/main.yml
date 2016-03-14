@@ -1,5 +1,7 @@
 
 
+- yum: name=git state=latest
+
 - yum: name=nss state=latest
 - yum: name=java-1.8.0-openjdk-devel state=present
 
