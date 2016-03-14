@@ -9,8 +9,7 @@
       <configVersion>2</configVersion>
       <userRemoteConfigs>
         <hudson.plugins.git.UserRemoteConfig>
-          <url>keith@10.0.2.2:/home/keith/projects/pact-pipeline</url>
-          <credentialsId>fromfile</credentialsId>
+          <url>file:///vagrant/pipeline</url>
         </hudson.plugins.git.UserRemoteConfig>
       </userRemoteConfigs>
       <branches>
