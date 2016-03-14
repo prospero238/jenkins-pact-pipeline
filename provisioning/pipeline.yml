@@ -15,4 +15,4 @@
 #    - role: geerlingguy.ruby
   tags: jenkins
   
-# - include: broker.yml
+- include: pact_job.yml
