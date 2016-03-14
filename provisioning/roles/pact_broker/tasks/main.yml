@@ -1,0 +1,22 @@
+
+- name: get pact_broker
+  git: repo=git@github.com:bethesque/pact_broker.git
+       dest=/vagrant/pact_broker
+       accept_hostkey=yes
+
+- gem: name=i18n version=0.7.0 state=present
+  sudo: yes
+    
+
+- name: run bundler broker gem
+  sudo: yes
+  bundler: chdir=/vagrant/pact_broker/example 
+
+
+- name: start broker
+  command: ( ( nohup bundler exec rackup -p 8383 ) & )
+  args:
+    chdir: /vagrant/pact_broker/example 
+
+
+       

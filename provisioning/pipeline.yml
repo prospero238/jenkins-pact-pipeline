@@ -1,0 +1,18 @@
+
+---
+- hosts: all
+  sudo: yes
+  vars:
+    jenkins_plugins:
+      - git
+      - build-pipeline-plugin
+      - pipeline-stage-view
+      - pipeline-utility-steps
+      - ssh
+  roles:
+    - role: geerlingguy.java
+    - role: geerlingguy.jenkins
+#    - role: geerlingguy.ruby
+  tags: jenkins
+  
+# - include: broker.yml

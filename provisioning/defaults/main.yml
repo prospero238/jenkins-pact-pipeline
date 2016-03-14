@@ -1,0 +1,6 @@
+jenkins_plugins:
+  - git
+  - build-pipeline-plugin
+  - pipeline-stage-view
+  - pipeline-utility-steps
+  - ssh
