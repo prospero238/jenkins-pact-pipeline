@@ -10,6 +10,7 @@
     creates: /vagrant/consumer-and-provider/.git
 
 - template: src=hudson.tasks.Maven.xml dest=/var/lib/jenkins owner=jenkins group=jenkins mode=0755
+- template: src=scriptApproval.xml dest=/var/lib/jenkins owner=jenkins group=jenkins mode=0755
 
 - name: tell the host about our servers it might want to ssh to
   known_hosts: path='/etc/ssh/ssh_known_hosts'
