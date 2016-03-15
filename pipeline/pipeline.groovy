@@ -5,19 +5,23 @@ def mvn_command="bin/mvn clean verify -s /vagrant/settings.xml"
 def java_home='/usr/lib/jvm/java-1.8.0-openjdk-1.8.0.71-1.b15.el6_7.x86_64'
 def consumer_git_url='file:///vagrant/consumer-and-provider'
 
-def stage_per_downstream_provider=true
-  node {
-    
-     def git_module_provider_map = [
+// this map provides the link between provider name and git_url (and other bits of info)
+def git_module_provider_map = [
         "shape-provider": [ 
             name: "shape-provider", 
             git_url:'file:///vagrant/consumer-and-provider',
             maven_args: "-Pprovider,shape-provider"
 
-            ]
+            ], 
+          "color-provider": [
+            name: "color-provider",
+            git_url:'file:///vagrant/consumer-and-provider',
+            maven_args: "-Pprovider,color-provider"
+          ]
         //,"color-provider": [ name: "color-provider", git_url:'keith@10.0.2.2:/home/keith/projects/color-provider']
      ]     
-
+def stage_per_downstream_provider=true
+  node {
     def projects=[]
 
     git url: 'file:///vagrant/consumer-and-provider'    
