@@ -10,4 +10,3 @@ before running "vagrant up", there are a couple things you'll have to do:
 * run  'ansible-galaxy install -r requirements.yml' (in directory of Vagrantfile)
 
 
-After the first error you'll also have to go to "http://10.10.10.20:8080/scriptApproval/" and approve scripts.
