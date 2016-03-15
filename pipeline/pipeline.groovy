@@ -18,7 +18,6 @@ def git_module_provider_map = [
           ]
         
      ]     
-def stage_per_downstream_provider=true
   node {
     def projects=[]
 
