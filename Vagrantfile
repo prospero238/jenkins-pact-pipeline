@@ -16,7 +16,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
   config.vm.box = "nrel/CentOS-6.6-x86_64"
   config.vm.provision "ansible" do |ansible|
     ansible.playbook = "provisioning/pipeline.yml"
-    ansible.tags = ANSIBLE_TAGS
+     ansible.tags = ANSIBLE_TAGS
     ansible.groups = {
       "ci-server" => ["default"]
     }
